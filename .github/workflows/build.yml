@@ -127,3 +127,4 @@ jobs:
           tags: |
             entitle40/airdo:${{ github.ref_name }}
             entitle40/airdo:latest
+          cache-from: type=gha
