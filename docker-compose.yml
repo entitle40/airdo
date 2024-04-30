@@ -1,0 +1,13 @@
+services:
+  airdo:
+    image: entitle40/airdo:latest
+    container_name: airdo
+    # 如果你需要使用外部的代理引用，请取消此行的注释
+    # network_mode: "host"
+    volumes:
+      - "${PWD}/config/:/airdo/config"
+      - "${PWD}/data/:/airdo/data"
+    environment:
+      TZ : 'Asia/Shanghai'
+      LANG: 'C.UTF-8'
+      LC_ALL: 'C.UTF-8'

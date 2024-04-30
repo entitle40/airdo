@@ -1,0 +1,31 @@
+[package]
+name = "airdo"
+version = "0.0.11"
+edition = "2021"
+repository = "https://github.com/entitle40/airdo"
+license = "MIT"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+axum = { version = "0.7.4" }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+serde_yaml = "0.9"
+tokio = { version = "1.36.0", features = ["full"] }
+tower-http = { version = "0.5.2", features = ["fs", "auth", "catch-panic"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "time", "local-time"] }
+time = "0.3.21"
+chrono = { version = "0.4.35", features = ["serde"] }
+reqwest = { version = "0.11.26", features = ["json", "stream", "socks"] }
+anyhow = "1.0"
+sqlx = { version = "0.7", features = [ "runtime-tokio", "sqlite", "macros", "chrono", "json", "migrate" ] }
+base64 = "0.22.0"
+percent-encoding = "2.3.1"
+regex = "1.10.3"
+tokio-cron-scheduler = "*"
+uuid = "1.8.0"
+
+[build-dependencies]
+vergen = { version = "8.2.1", features = ["build", "git", "gitcl"] }

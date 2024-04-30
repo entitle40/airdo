@@ -1,0 +1,47 @@
+server:
+  bind: "0.0.0.0"
+  port: 49090
+  # web目录所在位置
+  web: "./ui"
+  # (可选) 结果页面访问权限，为空时，任何人都可以访问
+  auth:
+    username:
+    password:
+
+# 健康检查
+health_check:
+  # 间隔时间（单位：秒）
+  interval_time: 2
+  # 超时时间（单位：秒）
+  connect_timeout: 5
+  # 测试地址，建议尽量不使用常规的测试延迟的地址，因为机场可能会劫持这些地址，就像一些机场会对测速进行分流一样。
+  test_url: https://cp.cloudflare.com
+
+# 代理配置
+proxy:
+  # 是否启用代理进行健康检查
+  enabled: true
+  # (二选一) 内置的代理应用
+  inner:
+    # 代理使用的核心，目前支持 sing-box 和 mihomo ，注：核心和订阅链接没有任何关系，比如说核心可以使用 sing-box ，订阅类型可以使用 Clash
+    core: "mihomo"
+    # 代理的控制地址，建议在和你的应用端口冲突时修改，否则使用默认即可
+    controller: "127.0.0.1:49091"
+    # 代理的外部控制地址秘钥，留空为随机生成，建议留空
+    secret: ""
+    # 机场配置
+    airport:
+      # 订阅链接类型，目前支持 通用订阅 [Universal] 和 [Clash]
+      url_type: "Clash"
+      # 订阅地址
+      url: "https://www.example.com/?e8bf99e58faae698afe4b880e4b8aae6b58be8af95e993bee68ea5"
+  
+  # (二选一) 外部的代理应用，请使用支持 clash api 的代理应用，目前比较流行的且支持该api的有 sing-box 和 mihomo
+  # 适用于我们内置的订阅解析器不支持或解析异常，或者认为把订阅放在此处是一件有风险的行为，如果你明白应该怎样配置，我们鼓励此行为
+  external:
+    # 是否使用外部代理应用，此项配置如果启用，则会禁用内置应用
+    enabled: false
+    # 代理的外部控制地址
+    external_controller: "127.0.0.1:9090"
+    # 代理的外部控制地址秘钥，可留空
+    secret: ""

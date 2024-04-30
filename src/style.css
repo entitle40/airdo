@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.emoji {
+    font-family: 'ui-sans-serif', 'system-ui', 'sans-serif', 'Twemoji Mozilla'
+}
