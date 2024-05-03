@@ -25,9 +25,9 @@ WORKDIR /usr/src/airdo
 RUN apt-get update
 RUN apt-get install -y wget curl jq
 RUN export SING_BOX_TAG_NAME=$(curl -s "https://api.github.com/repos/SagerNet/sing-box/releases/latest" | jq -r '.tag_name') && echo "SING_BOX_TAG_NAME: ${SING_BOX_TAG_NAME}" && echo "export SING_BOX_TAG_NAME=${SING_BOX_TAG_NAME}" >> /etc/profile
-RUN export SING_BOX_VERSION=${SING_BOX_TAG_NAME#?} && echo "SING_BOX_VERSION: ${SING_BOX_VERSION}" && echo "export SING_BOX_VERSION=${SING_BOX_VERSION}" >> /etc/profile
+RUN source /etc/profile && export SING_BOX_VERSION=${SING_BOX_TAG_NAME#?} && echo "SING_BOX_VERSION: ${SING_BOX_VERSION}" && echo "export SING_BOX_VERSION=${SING_BOX_VERSION}" >> /etc/profile
 RUN export MIHOMO_TAG_NAME=$(curl -s "https://api.github.com/repos/MetaCubeX/mihomo/releases/latest" | jq -r '.tag_name') && echo "MIHOMO_TAG_NAME: ${MIHOMO_TAG_NAME}" && echo "export MIHOMO_TAG_NAME=${MIHOMO_TAG_NAME}" >> /etc/profile
-RUN wget https://github.com/SagerNet/sing-box/releases/download/${SING_BOX_TAG_NAME}/sing-box-${SING_BOX_VERSION}-linux-amd64.tar.gz
+RUN source /etc/profile && wget https://github.com/SagerNet/sing-box/releases/download/${SING_BOX_TAG_NAME}/sing-box-${SING_BOX_VERSION}-linux-amd64.tar.gz
 RUN tar -zxvf sing-box-${SING_BOX_VERSION}-linux-amd64.tar.gz
 RUN mv sing-box-${SING_BOX_VERSION}-linux-amd64 sing-box
 RUN wget https://github.com/MetaCubeX/mihomo/releases/download/${MIHOMO_TAG_NAME}/mihomo-linux-amd64-${MIHOMO_TAG_NAME}.gz
