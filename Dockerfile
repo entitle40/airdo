@@ -24,9 +24,9 @@ FROM debian:bookworm-slim as proxy-build
 WORKDIR /usr/src/airdo
 RUN apt-get update
 RUN apt-get install -y wget curl jq
-ENV SING_BOX_TAG_NAME=$(curl -s "https://api.github.com/repos/SagerNet/sing-box/releases/latest" | jq -r '.tag_name')
-ENV SING_BOX_VERSION=${TAG_NAME#?}
-ENV MIHOMO_TAG_NAME=$(curl -s "https://api.github.com/repos/MetaCubeX/mihomo/releases/latest" | jq -r '.tag_name')
+RUN export SING_BOX_TAG_NAME=$(curl -s "https://api.github.com/repos/SagerNet/sing-box/releases/latest" | jq -r '.tag_name')
+RUN export SING_BOX_VERSION=${TAG_NAME#?}
+RUN export MIHOMO_TAG_NAME=$(curl -s "https://api.github.com/repos/MetaCubeX/mihomo/releases/latest" | jq -r '.tag_name')
 RUN wget https://github.com/SagerNet/sing-box/releases/download/${SING_BOX_TAG_NAME}/sing-box-${SING_BOX_VERSION}-linux-amd64.tar.gz
 RUN tar -zxvf sing-box-${SING_BOX_VERSION}-linux-amd64.tar.gz
 RUN mv sing-box-${SING_BOX_VERSION}-linux-amd64 sing-box
