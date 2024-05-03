@@ -65,36 +65,39 @@ jobs:
         mkdir ${{ matrix.archive-dir }}
         mv src-api/config/config-example.yml src-api/config/config.yml
         cp -r LICENSE README.md ui src-api/target/${{ matrix.target }}/release/airdo* src-api/config ${{ matrix.archive-dir }}/
+        SING_BOX_TAG_NAME=$(curl -s "https://api.github.com/repos/SagerNet/sing-box/releases/latest" | jq -r '.tag_name')
+        SING_BOX_VERSION=${TAG_NAME#?}
+        MIHOMO_TAG_NAME=$(curl -s "https://api.github.com/repos/MetaCubeX/mihomo/releases/latest" | jq -r '.tag_name')
         if [ "${{ matrix.build }}" = "windows" ]; then
-          curl -O -L https://github.com/SagerNet/sing-box/releases/download/v1.8.12/sing-box-1.8.12-windows-amd64.zip
-          7z x sing-box-1.8.12-windows-amd64.zip
-          mv sing-box-1.8.12-windows-amd64 sing-box
+          curl -O -L https://github.com/SagerNet/sing-box/releases/download/${SING_BOX_TAG_NAME}/sing-box-${SING_BOX_VERSION}-windows-amd64.zip
+          7z x sing-box-${SING_BOX_VERSION}-windows-amd64.zip
+          mv sing-box-${SING_BOX_VERSION}-windows-amd64 sing-box
           cp -r sing-box ${{ matrix.archive-dir }}/
-          curl -O -L https://github.com/MetaCubeX/mihomo/releases/download/v1.18.3/mihomo-windows-amd64-v1.18.3.zip
-          7z x mihomo-windows-amd64-v1.18.3.zip
+          curl -O -L https://github.com/MetaCubeX/mihomo/releases/download/${MIHOMO_TAG_NAME}/mihomo-windows-amd64-${MIHOMO_TAG_NAME}.zip
+          7z x mihomo-windows-amd64-${MIHOMO_TAG_NAME}.zip
           mkdir mihomo
           mv mihomo-windows-amd64 mihomo/mihomo
           cp -r mihomo ${{ matrix.archive-dir }}/
           7z a "${{ matrix.archive-name }}" ${{ matrix.archive-dir }}
         elif [ "${{ matrix.build }}" = "linux" ]; then
-          wget https://github.com/SagerNet/sing-box/releases/download/v1.8.12/sing-box-1.8.12-linux-amd64.tar.gz
-          tar -zxvf sing-box-1.8.12-linux-amd64.tar.gz
-          mv sing-box-1.8.12-linux-amd64 sing-box
+          wget https://github.com/SagerNet/sing-box/releases/download/${SING_BOX_TAG_NAME}/sing-box-${SING_BOX_VERSION}-linux-amd64.tar.gz
+          tar -zxvf sing-box-${SING_BOX_VERSION}-linux-amd64.tar.gz
+          mv sing-box-${SING_BOX_VERSION}-linux-amd64 sing-box
           cp -r sing-box ${{ matrix.archive-dir }}/
-          wget https://github.com/MetaCubeX/mihomo/releases/download/v1.18.3/mihomo-linux-amd64-v1.18.3.gz
+          wget https://github.com/MetaCubeX/mihomo/releases/download/${MIHOMO_TAG_NAME}/mihomo-linux-amd64-${MIHOMO_TAG_NAME}.gz
           mkdir mihomo
-          gzip -dN mihomo-linux-amd64-v1.18.3.gz
+          gzip -dN mihomo-linux-amd64-${MIHOMO_TAG_NAME}.gz
           mv mihomo-linux-amd64 mihomo/mihomo
           cp -r mihomo ${{ matrix.archive-dir }}/
           tar -czf "${{ matrix.archive-name }}" ${{ matrix.archive-dir }}
         else
-          wget https://github.com/SagerNet/sing-box/releases/download/v1.8.12/sing-box-1.8.12-darwin-amd64.tar.gz
-          tar -zxvf sing-box-1.8.12-darwin-amd64.tar.gz
-          mv sing-box-1.8.12-darwin-amd64 sing-box
+          wget https://github.com/SagerNet/sing-box/releases/download/${SING_BOX_TAG_NAME}/sing-box-${SING_BOX_VERSION}-darwin-amd64.tar.gz
+          tar -zxvf sing-box-${SING_BOX_VERSION}-darwin-amd64.tar.gz
+          mv sing-box-${SING_BOX_VERSION}-darwin-amd64 sing-box
           cp -r sing-box ${{ matrix.archive-dir }}/
-          wget https://github.com/MetaCubeX/mihomo/releases/download/v1.18.3/mihomo-darwin-amd64-v1.18.3.gz
+          wget https://github.com/MetaCubeX/mihomo/releases/download/${MIHOMO_TAG_NAME}/mihomo-darwin-amd64-${MIHOMO_TAG_NAME}.gz
           mkdir mihomo
-          gzip -dN mihomo-darwin-amd64-v1.18.3.gz
+          gzip -dN mihomo-darwin-amd64-${MIHOMO_TAG_NAME}.gz
           mv mihomo-darwin-amd64 mihomo/mihomo
           cp -r mihomo ${{ matrix.archive-dir }}/
           tar -czf "${{ matrix.archive-name }}" ${{ matrix.archive-dir }}

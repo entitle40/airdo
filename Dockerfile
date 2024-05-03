@@ -23,13 +23,16 @@ FROM debian:bookworm-slim as proxy-build
 
 WORKDIR /usr/src/airdo
 RUN apt-get update
-RUN apt-get install -y wget
-RUN wget https://github.com/SagerNet/sing-box/releases/download/v1.8.12/sing-box-1.8.12-linux-amd64.tar.gz
-RUN tar -zxvf sing-box-1.8.12-linux-amd64.tar.gz
-RUN mv sing-box-1.8.12-linux-amd64 sing-box
-RUN wget https://github.com/MetaCubeX/mihomo/releases/download/v1.18.3/mihomo-linux-amd64-v1.18.3.gz
+RUN apt-get install -y wget curl jq
+ENV SING_BOX_TAG_NAME=$(curl -s "https://api.github.com/repos/SagerNet/sing-box/releases/latest" | jq -r '.tag_name')
+ENV SING_BOX_VERSION=${TAG_NAME#?}
+ENV MIHOMO_TAG_NAME=$(curl -s "https://api.github.com/repos/MetaCubeX/mihomo/releases/latest" | jq -r '.tag_name')
+RUN wget https://github.com/SagerNet/sing-box/releases/download/${SING_BOX_TAG_NAME}/sing-box-${SING_BOX_VERSION}-linux-amd64.tar.gz
+RUN tar -zxvf sing-box-${SING_BOX_VERSION}-linux-amd64.tar.gz
+RUN mv sing-box-${SING_BOX_VERSION}-linux-amd64 sing-box
+RUN wget https://github.com/MetaCubeX/mihomo/releases/download/${MIHOMO_TAG_NAME}/mihomo-linux-amd64-${MIHOMO_TAG_NAME}.gz
 RUN mkdir mihomo
-RUN gzip -dN mihomo-linux-amd64-v1.18.3.gz
+RUN gzip -dN mihomo-linux-amd64-${MIHOMO_TAG_NAME}.gz
 RUN mv mihomo-linux-amd64 mihomo/mihomo
 
 
