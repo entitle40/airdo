@@ -62,6 +62,11 @@ jobs:
     - name: Build archive
       shell: bash
       run: |
+        if [ "${{ matrix.build }}" = "windows" ]; then
+          choco install jq
+        elif [ "${{ matrix.build }}" = "macos" ]; then
+          brew install jq
+        fi
         mkdir ${{ matrix.archive-dir }}
         mv src-api/config/config-example.yml src-api/config/config.yml
         cp -r LICENSE README.md ui src-api/target/${{ matrix.target }}/release/airdo* src-api/config ${{ matrix.archive-dir }}/
